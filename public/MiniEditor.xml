@@ -1,0 +1,972 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="MiniEditorOKS.xslt"?>
+<?xml-stylesheet type="text/xslt" href="PrintSpec.xslt" ?>
+<MiniEditor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../Regulations/Regulation.xsd" Version="2.19.21130.3">
+  <Transforms>
+ <Transform CodePackMask="startA" CodeRegMask="sth">
+      <Export>MiniEditor\MiniEditorOKS.xslt</Export>
+    </Transform>
+ </Transforms>
+  <Lists>
+    <!-- Списки со спец. элементами -->
+    <List Name="Person">
+      <Fields KeyCode="Person">
+        <!-- Заявитель  физ.лицо, кадастровый инженер -->
+        <ParamInfoF Code="Person" Name="Физическое лицо" OIDSelectMask="1\.2\.643\.5\.1\.24\.2\.(1\.3|1\.3\.1)">
+          <Param Code="FIO1" Name="Фамилия" RegEx="[а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*" ErrorText="Русские буквы, дефис, апостроф" />
+          <Param Code="FIO2" Name="Имя" RegEx="[а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*" ErrorText="Русские буквы, дефис, апостроф" />
+          <Param Code="FIO3" Name="Отчество" RegEx="([а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*|)" ErrorText="Русские буквы, дефис, апостроф" />
+          <Param Code="INNF" Name="ИНН" RegEx="(\d{12}|)" ErrorText="12 цифр" />
+          <Param Code="CertN" Name="Ном.аттестата КИ" RegEx="(.+|[0-9]{2}-[0-9]{2}-[0-9]{1,44}|)" ErrorText="Формат nn-nn-N, где n - цифра, N - цифры" />
+          <Param Code="SNILS" Name="СНИЛС" RegEx="([0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}|)" ErrorText="Формат nnn-nnn-nnn nn, где n - цифра" />
+          <Param Code="Phone" Name="Телефон" RegEx="(.{1,20}|)" ErrorText="Не более 20 символов" />
+          <Param Code="Email" Name="E-mail" RegEx="([0-9a-zA-Z_.\-]{2,50}[@]{1}[0-9a-zA-Z_.\-]{2,50}[.]{1}[a-zA-Z]{2,5}|)" ErrorText="Шаблон 'S@S.L', где S - от 2-х до 50 символов, L - от 2-х до 5 букв" />
+          <ParamSelect Code="Region" Name="Регион" Dictionary="dRegionsRF" DictionaryMask="((?!FILE)(?!NAME).*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение">
+            <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+          </ParamSelect>
+          <Param Code="Address" Name="Адрес" RegEx="(.{1,2500})" ErrorText="Не более 2500 символов" />
+          <ParamSelect Code="Type_Document" Name="Тип" Dictionary="dCertificates" DictionaryMask="((?!FILE)(?!NAME)(?!008001000000)(?!008001021000)008001.*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение">
+            <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+          </ParamSelect>
+          <Param Code="Series" Name="Серия" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+          <Param Code="Number" Name="Номер" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+          <Param Code="IssueOrgan" Name="Кем выдан" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+          <ParamDate Code="Date" Name="Дата выдачи" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" />
+        </ParamInfoF>
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Organization">
+      <!-- Заявитель  юр.лицо, кадастровый инженер -->
+      <Fields KeyCode="Organization">
+        <ParamInfoJ Code="Organization" Name="Организация" OIDSelectMask="1\.2\.643\.5\.1\.24\.2\.(1\.3\.1|30|19|20|32|4|43|44|45|5|53|54|55|6)">
+          <Param Code="Organization" Name="Наименование" RegEx="(?-i)(^[0-я:/'_\-«»!№;%?()`.,+=*#@|&amp;&quot;]+( [0-я:/'_\-«»!№;%?()`.,+=*#@|&amp;&quot;]+)*$)(?&lt;=^.{1,240}$)" ErrorText="Русские и латинские буквы (кроме ё); цифры; знаки препинания, введенные с клавиатуры; запрещены два пробела подряд, пробелы в начале и в конце; всего не более 240 символов" />
+          <Param Code="INNJ" Name="ИНН" RegEx="(\d{10}|)" ErrorText="10 цифр" />
+          <Param Code="KPP" Name="КПП" RegEx="(\d{9}|)" ErrorText="9 цифр" />
+          <Param Code="OGRN" Name="ОГРН" ErrorText="13 цифр, первая - 1,2,5" RegEx="([125]{1}\d{12}|)" />
+          <ParamDate Code="RegDate" Name="Дата регистрации" Format="yyyy-MM-dd" RegEx=".*" ErrorText="Выберите дату" />
+          <Param Code="Phone" Name="Телефон" RegEx="(.{1,20}|)" ErrorText="Не более 20 символов" />
+          <Param Code="Email" Name="E-mail" RegEx="([0-9a-zA-Z_.\-]{2,50}[@]{1}[0-9a-zA-Z_.\-]{2,50}[.]{1}[a-zA-Z]{2,5}|)" ErrorText="Шаблон 'S@S.L', где S - от 2-х до 50 символов, L - от 2-х до 5 букв" />
+          <ParamSelect Code="Region" Name="Регион" Dictionary="dRegionsRF" DictionaryMask="((?!FILE)(?!NAME).*)" RegEx="(?!- ВЫБОР -).*" ErrorText="Выберите значение">
+            <Param Code="" Name="" Selected="true" />
+          </ParamSelect>
+          <Param Code="Address" Name="Адрес" RegEx="(.{1,2500}|)" ErrorText="Не более 2500 символов" />
+          <Param Code="FIO1" Name="Фамилия" RegEx="[а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*" ErrorText="Русские буквы, дефис, апостроф" />
+          <Param Code="FIO2" Name="Имя" RegEx="[а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*" ErrorText="Русские буквы, дефис, апостроф" />
+          <Param Code="FIO3" Name="Отчество" RegEx="([а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*|)" ErrorText="Русские буквы, дефис, апостроф" />
+          <Param Code="Appointment" Name="Должность" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" />
+          <Param Code="SNILS" Name="СНИЛС" RegEx="([0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}|)" ErrorText="Формат nnn-nnn-nnn nn, где n - число" />
+          <Param Code="CertN" Name="Ном.аттестата КИ" RegEx="(.+|[0-9]{2}-[0-9]{2}-[0-9]{1,44}|)" ErrorText="Формат nn-nn-N, где n - цифра, N - цифры" />
+          <ParamSelect Code="Type_Document" Name="Тип" Dictionary="dCertificates" DictionaryMask="((?!FILE)(?!NAME)(?!008001000000)(?!008001021000)008001.*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение">
+            <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+          </ParamSelect>
+          <Param Code="Series" Name="Серия" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+          <Param Code="Number" Name="Номер" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+          <Param Code="IssueOrgan" Name="Кем выдан" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+          <ParamDate Code="Date" Name="Дата выдачи" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" />
+        </ParamInfoJ>
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Address">
+      <Fields KeyCode="Address">
+        <ParamAddress Code="Address" Name="Адрес" UseKladr="true" ErrorText="Создайте и выберите значение" RegEx=".+">
+          <Param Code="Code_FIAS" Name="ФИАС" RegEx="([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})|" ErrorText=""/>
+          <Param Code="Code_OKATO" Name="ОКАТО" RegEx="\d{11}" ErrorText="11 цифр" />
+          <Param Code="Code_OKTMO" Name="ОКТМО" RegEx="\d{0,11}" ErrorText="11 цифр" />
+          <Param Code="Code_KLADR" Name="КЛАДР" RegEx="\d{1,20}" ErrorText="Не более 20 цифр" ReadOnly="true" />
+          <Param Code="Postal_Code" Name="Почтовый индекс" RegEx="\d{0,6}" ErrorText="6 цифр" />
+          <Param Code="Region" Name="Регион" RegEx="(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|83|86|87|89|91|92).*" ErrorText="Выберите регион, кроме 80-82, 84-85, 88, 99" />
+          <Param Code="District" Name="Район" RegEx="" ErrorText="" />
+          <Param Code="City" Name="Город / МО" RegEx="" ErrorText="" />
+          <Param Code="Urban_District" Name="Городской район" RegEx="" ErrorText="" />
+          <Param Code="Soviet_Village" Name="Сельсовет" RegEx="" ErrorText="" />
+          <Param Code="Locality" Name="Населенный пункт" RegEx="" ErrorText="" />
+          <Param Code="Street" Name="Улица" RegEx="" ErrorText="" />
+          <Param Code="Level1" Name="Дом" RegEx="" ErrorText="" />
+          <Param Code="Level2" Name="Корпус" RegEx="" ErrorText="" />
+          <Param Code="Level3" Name="Строение" RegEx="" ErrorText="" />
+          <Param Code="Apartment" Name="Квартира" RegEx="" ErrorText="" />
+          <Param Code="Other" Name="Иное" RegEx="" ErrorText="" />
+        </ParamAddress>
+      </Fields>
+      <Items />
+    </List>
+    <!-- Заявление -->
+    <List Name="OKU">
+      <Fields KeyCode="OKU">
+        <Param Code="OKU" Name="ОРП" RegEx=".+" ErrorText="Введите текст" />
+      </Fields>
+      <Items>
+        <Item id="OKU_1" Fixed="true">
+          <Param Code="OKU" Name="ОРП" RegEx=".+" ErrorText="Введите текст">{?External(NameRecipient)?}</Param>
+        </Item>
+        <Item id="OKU_2" Fixed="true">
+          <Param Code="OKU" Name="ОРП" RegEx=".+" ErrorText="Введите текст">Территориальный отдел № Управления Роснедвижимости по </Param>
+        </Item>
+      </Items>
+    </List>
+    <List Name="PAddress">
+      <Fields KeyCode="PAddress">
+        <Param Code="PAddress" Name="Адрес" RegEx=".+" ErrorText="Введите текст" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="NameDocument">
+      <Fields KeyCode="Name">
+        <Param Code="Name" Name="Наименование документа" RegEx=".{1,500}" ErrorText="Не более 500 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="IssueOrgan">
+      <Fields KeyCode="IssueOrgan">
+        <Param Code="IssueOrgan" Name="Кем выдан" RegEx=".{1,255}" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <!-- Технический план -->
+    <List Name="Title_P1H">
+      <Fields KeyCode="Title_P1">
+        <ParamMemo Code="Title_P1" Name="Вид" RegEx=".{1,4000}" ErrorText="Не более 4000 символов" />
+      </Fields>
+      <Items>
+        <Item id="Title_P1_1" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">созданием ________________ (указывается вид объекта недвижимости: здания, сооружения, объекта незавершенного строительства, помещения, машино-места, единого недвижимого комплекса), расположенного по адресу: ___________ (указывается адрес или местоположение объекта недвижимости)</ParamMemo>
+        </Item>
+        <Item id="Title_P1_2" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">созданием _______________ (указывается вид объекта недвижимости: здания, сооружения, помещения, единого недвижимого комплекса), расположенного по адресу: ___________ (указывается адрес или местоположение соответствующего объекта недвижимости) и образованием части (частей) ___________ (указывается вид объекта недвижимости: здания, сооружения, помещения, единого недвижимого комплекса)</ParamMemo>
+        </Item>
+        <Item id="Title_P1_3" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">созданием __________ (указывается вид объекта недвижимости: здания, сооружения), расположенного по адресу: _________________ (указывается адрес или местоположение объекта недвижимости) и ___________ (указывается количество) помещений в нем, в том числе ___________ (указывается количество) жилых и ___________ (указывается количество) нежилых помещений и (или) _____________ (указывается количество машино-мест)</ParamMemo>
+        </Item>
+        <Item id="Title_P1_4" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">образованием _________________ (указывается количество) объекта недвижимости (объектов недвижимости), расположенного (расположенных): ____________ (указывается адрес или местоположение объекта недвижимости (объектов недвижимости) в результате ___________ (указывается способ образования) объекта недвижимости (объектов недвижимости) с кадастровым номером (кадастровыми номерами): ___________</ParamMemo>
+        </Item>
+        <Item id="Title_P1_5" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">образованием ___________ (указывается вид объекта недвижимости: здания, сооружения, помещения, единого недвижимого комплекса), расположенного по адресу: ___________ (указывается адрес или местоположение здания, сооружения, помещения, единого недвижимого комплекса) и образованием части (частей) здания, сооружения, помещения, единого недвижимого комплекса</ParamMemo>
+        </Item>
+        <Item id="Title_P1_6" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">образованием части (частей) ___________ (указывается вид объекта недвижимости: здания, сооружения, помещения, единого недвижимого комплекса) с кадастровым номером: ________________</ParamMemo>
+        </Item>
+        <Item id="Title_P1_7" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">изменением сведений о (указывается характеристика) ___________ (указывается вид объекта недвижимости в соответствующем падеже) с кадастровым номером:_______________, в том числе в связи с исправлением ошибки</ParamMemo>
+        </Item>
+        <Item id="Title_P1_8" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">изменением сведений о ________ (указывается характеристика) _________ (указывается вид объекта недвижимости в соответствующем падеже: здания, сооружения, помещения, единого недвижимого комплекса) с кадастровым номером: __________ и образованием либо изменением части (частей) _______ (указывается вид объекта недвижимости: здания, сооружения, помещения, единого недвижимого комплекса)</ParamMemo>
+        </Item>
+        <Item id="Title_P1_9" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст">изменением сведений о части (частях) _______ (указывается вид объекта недвижимости: здания, сооружения, помещения, единого недвижимого комплекса) с кадастровым номером: ________</ParamMemo>
+        </Item>
+      </Items>
+    </List>
+    <List Name="DocumentsMAP">
+      <Fields KeyCode="Kind">
+        <ParamHidden Code="Code_Document">558502020000</ParamHidden>
+        <!-- <Param Code="Name" Name="Наименование" RegEx="(.{1,255})" ErrorText="Не более 255 символов"/>-->
+        <Param Code="Number" Name="Номер" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+        <Param Code="Kind" Name="Наименование (вид)" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="Scale" Name="Масштаб" RegEx="^([^\s].{0,254})$" ErrorText="Текст, не начинающийся с пробела" />
+        <Param Code="Form" Name="Форма" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" />
+        <ParamDate Code="Date_Create" Name="Дата создания" RegEx=".+" Format="yyyy-MM-dd" ErrorText="Выберите дату" />
+        <ParamDate Code="Date_Update" Name="Дата последнего обновления" RegEx=".*" Format="yyyy-MM-dd" ErrorText="Выберите дату" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Documents">
+      <Fields KeyCode="Name">
+        <ParamSelect Code="Code_Document" SortMode="Value" Name="Тип" Dictionary="dReadyDoc" DictionaryMask="((?!FILE)(?!NAME).*)" TreeTemplate="(?&lt;1&gt;\d{4})(?&lt;2&gt;\d{5})(?&lt;3&gt;\d{3})" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение" />
+        <Param Code="Name" Name="Наименование" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" />
+        <Param Code="Number" Name="Номер" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+        <ParamDate Code="Date" Name="Дата выдачи" Format="yyyy-MM-dd" RegEx=".*" ErrorText="Выберите дату" />
+        <Param Code="IssueOrgan" Name="Кем выдан" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Geodesic_Bases">
+      <Fields KeyCode="PName">
+        <Param Code="PName" Name="Название пункта" RegEx="(.{1,4000})" ErrorText="Не более 255 символов" />
+        <Param Code="PKind" Name="Тип пункта" RegEx="(.{1,4000})" ErrorText="Не более 255 символов" />
+        <Param Code="PKlass" Name="Класс геодезической сети" RegEx="(.{1,4000})" ErrorText="Не более 255 символов" />
+        <Param Code="OrdX" Name="Координата X" RegEx="\-?\d+\.?\d{0,2}" ErrorText="Десятичное число с точкой, не более 20 цифр, не более 2 цифр после точки" />
+        <Param Code="OrdY" Name="Координата Y" RegEx="\-?\d+\.?\d{0,2}" ErrorText="Десятичное число с точкой, не более 20 цифр, не более 2 цифр после точки" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Means_Survey">
+      <Fields KeyCode="Name">
+        <Param Code="Name" Name="Наименование прибора" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="Certificate" Name="Сведения об утверждении типа" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="Certificate_Verification" Name="Реквизиты свидетельства о поверке" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="MeansSurvey">
+      <Fields KeyCode="Name">
+        <Param Code="Name" Name="Наименование прибора" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="Number" Name="Номер в ГРСИ" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="Duration" Name="Срок действия свидетельства" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="Certificate_Verification" Name="Реквизиты свидетельства о поверке" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Geopoint_Opred">
+      <Fields KeyCode="Geopoint_Opred">
+        <Param Code="Geopoint_Opred" Name="Метод" RegEx=".{1,50}" ErrorText="Не более 50 символов" />
+      </Fields>
+      <Items>
+        <Item id="Geopoint_Opred_1" Fixed="true">
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Геодезический метод</Param>
+        </Item>
+        <Item id="Geopoint_Opred_2" Fixed="true">
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Метод спутниковых геодезических измерений</Param>
+        </Item>
+        <Item id="Geopoint_Opred_3" Fixed="true">
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Фотограмметрический метод</Param>
+        </Item>
+        <Item id="Geopoint_Opred_4" Fixed="true">
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Картометрический метод</Param>
+        </Item>
+        <Item id="Geopoint_Opred_5" Fixed="true">
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Аналитический метод</Param>
+        </Item>
+      </Items>
+    </List>
+    <List Name="Tochn_Geopoint">
+      <Fields KeyCode="Formula">
+        <Param Code="Formula" Name="Формула" RegEx=".{1,4000}" ErrorText="Не более 4000 символов" />
+      </Fields>
+      <Items>
+        <Item id="Formula_1" Fixed="true">
+          <Param Code="Formula" Name="Формула" RegEx=".{1,4000}" ErrorText="Не более 4000 символов">Mt = √ ∆ Σ ∫ ± ¼ ½ ¾ ¹²³ ⁿ</Param>
+        </Item>
+        <Item id="Formula_1_fixed" Fixed="true">
+          <Param Code="Formula" Name="Средняя квадратическая погрешность" ErrorText="Не более 4000 символов">Mt = √(m₀² + m₁²)</Param>
+        </Item>
+      </Items>
+    </List>
+    <List Name="PersonDocuments">
+      <Fields KeyCode="Number">
+        <ParamSelect Code="CodeDocument" Name="Тип" Dictionary="dCertificates" DictionaryMask="((?!FILE)(?!NAME)(?!008001000000)(?!008001021000)008001.*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение">
+          <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+        </ParamSelect>
+        <Param Code="Series" Name="Серия" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+        <Param Code="Number" Name="Номер" RegEx="(.{1,45})" ErrorText="Не более 45 символов" />
+        <Param Code="IssueOrgan" Name="Кем выдан" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <ParamDate Code="Date" Name="Дата выдачи" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Network_Point">
+      <Fields KeyCode="NetworkPoints" >
+        <Param Code="StateConservation" Name="Сведения о состоянии" RegEx="(.{0,500})" ErrorText="Сведения о состоянии (сохранности) пункта геодезической сети.Не более 500 символов" />
+        <ParamSelect Code="NetworkPoints" Name="Состояние по классификатору" Dictionary="dNetworkPoints" DictionaryMask="((?!FILE)(?!NAME).*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Состояние (сохранность) по классификатору" >
+          <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+        </ParamSelect>
+      </Fields>
+      <Items />
+    </List>
+    <!-- Межевой план -->
+    <List Name="Title_P1">
+      <Fields KeyCode="Title_P1">
+        <ParamMemo Code="Title_P1" Name="Вид" RegEx="" ErrorText="Введите текст" />
+      </Fields>
+      <Items>
+        <Item id="Title_P1_1" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием земельного участка путем объединения земельных участков с кадастровыми номерами _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_2" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием _ (указывается количество) земельных участков путем раздела земельного участка с кадастровым номером _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_3" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием _ (указывается количество) земельных участков путем перераспределения земельных участков с кадастровыми номерами _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_4" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием земельного участка путем перераспределения земельного участка с кадастровым номером  _ и земель, находящихся в государственной или муниципальной собственности</ParamMemo>
+        </Item>
+        <Item id="Title_P1_5" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">исправлением ошибки в местоположении границ земельного участка с кадастровым номером _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_6" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием земельного участка (в случае образования нескольких земельных участков указывается их количество) путем выдела в счет доли (долей) в праве общей собственности на земельный участок с кадастровым номером _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_7" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием земельного участка (земельных участков) из состава земельного участка, представляющего собой единое землепользование с кадастровым номером _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_8" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием земельного участка из земель, находящихся в государственной или муниципальной собственности, расположенного _ (указывается адрес или описание местоположения образуемого земельного участка)</ParamMemo>
+        </Item>
+        <Item id="Title_P1_9" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">образованием части (частей) земельного участка с кадастровым номером _ , расположенного _ (указывается адрес или описание местоположения земельного участка)</ParamMemo>
+        </Item>
+        <Item id="Title_P1_10" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">уточнением местоположения границ и (или) площади земельного участка с кадастровым номером _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_11" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">уточнением части (частей) с учетным номером _ земельного участка с кадастровым номером  _ </ParamMemo>
+        </Item>
+        <Item id="Title_P1_12" Fixed="true">
+          <ParamMemo Code="Title_P1" Name="Вид" ErrorText="Введите текст">В частности, для видов выполненных кадастровых работ "уточнением местоположения границ и (или) площади земельного участка с кадастровым номером _ "</ParamMemo>
+        </Item>
+      </Items>
+    </List>
+    <List Name="Title_P2">
+      <Fields KeyCode="Title_P2">
+        <Param Code="Title_P2" Name="Цель" RegEx="" ErrorText="Введите текст" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Formula1">
+      <Fields KeyCode="Formula1">
+        <Param Code="Formula1" Name="Метод" RegEx="" ErrorText="Введите текст" />
+      </Fields>
+      <Items>
+        <Item id="Formula1_1" Fixed="true">
+          <Param Code="Formula1" Name="Метод" RegEx="" ErrorText="Введите текст">Геодезический метод</Param>
+        </Item>
+        <Item id="Formula1_2" Fixed="true">
+          <Param Code="Formula1" Name="Метод" RegEx="" ErrorText="Введите текст">Метод спутниковых геодезических измерений</Param>
+        </Item>
+        <Item id="Formula1_3" Fixed="true">
+          <Param Code="Formula1" Name="Метод" RegEx="" ErrorText="Введите текст">Фотограмметрический метод</Param>
+        </Item>
+        <Item id="Formula1_4" Fixed="true">
+          <Param Code="Formula1" Name="Метод" RegEx="" ErrorText="Введите текст">Картометрический метод</Param>
+        </Item>
+        <Item id="Formula1_5" Fixed="true">
+          <Param Code="Formula1" Name="Метод" RegEx="" ErrorText="Введите текст">Аналитический метод</Param>
+        </Item>
+      </Items>
+    </List>
+    <List Name="Formula2">
+      <Fields KeyCode="Formula2">
+        <Param Code="Formula2" Name="Формула" RegEx=".+" ErrorText="Не более 1000 символов" />
+      </Fields>
+      <Items>
+        <Item id="Formula2_1" Fixed="true">
+          <Param Code="Formula2" Name="" ErrorText="Введите текст">Mt = √  ∆ Σ ∫ ± ¼ ½ ¾ ¹²³ ⁿ</Param>
+        </Item>
+        <Item id="Formula2_1_fixed" Fixed="true">
+          <Param Code="Formula2" Name="Средняя квадратическая погрешность" ErrorText="Не более 4000 символов">Mt = √(m₀² + m₁²)</Param>
+        </Item>
+      </Items>
+    </List>
+    <List Name="Formula3">
+      <Fields KeyCode="Formula3">
+        <Param Code="Formula3" Name="Формула" RegEx=".+" ErrorText="Не более 1000 символов" />
+      </Fields>
+      <Items>
+        <Item id="Formula3_1" Fixed="true">
+          <Param Code="Formula3" Name="" ErrorText="Введите текст">∆Р = √  ∆ Σ ∫ ± ¼ ½ ¾ ¹²³ ⁿ</Param>
+        </Item>
+      </Items>
+    </List>
+    <List Name="P1">
+      <Fields KeyCode="C2">
+        <Param Code="C2" Name="Наименование" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="C3" Name="Реквизиты" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="C2">
+      <Fields KeyCode="C2">
+        <Param Code="C2" Name="Наименование" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="P2">
+      <Fields KeyCode="C2">
+        <Param Code="C2" Name="Название пункта и тип знака" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="C3" Name="Класс геодезической сети" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="C4" Name="Координата X" RegEx="\-?\d+\.?\d{0,2}" ErrorText="Десятичное число с точкой, не более 20 цифр, не более 2 цифр после точки" />
+        <Param Code="C5" Name="Координата Y" RegEx="\-?\d+\.?\d{0,2}" ErrorText="Десятичное число с точкой, не более 20 цифр, не более 2 цифр после точки" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="P3">
+      <Fields KeyCode="C2">
+        <Param Code="C2" Name="Наименование прибора" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="C3" Name="Реквизиты сертификата" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <Param Code="C4" Name="Реквизиты свидетельства о поверке" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+      </Fields>
+      <Items />
+    </List>
+    <List Name="Geopoint_Zacrep">
+      <Fields KeyCode="Geopoint_Zacrep">
+        <Param Code="Geopoint_Zacrep" Name="Описание закрепления точки" RegEx=".{0,50}" ErrorText="Не более 50 символов" />
+      </Fields>
+      <Items>
+        <Item id="Geopoint_Zacrep_1" Fixed="true">
+          <Param Code="Geopoint_Zacrep" Name="Описание закрепления точки" RegEx="" ErrorText="Введите текст">Долговременный межевой знак</Param>
+        </Item>
+        <Item id="Geopoint_Zacrep_2" Fixed="true">
+          <Param Code="Geopoint_Zacrep" Name="Описание закрепления точки" RegEx="" ErrorText="Введите текст">Временный межевой знак</Param>
+        </Item>
+        <Item id="Geopoint_Zacrep_3" Fixed="true">
+          <Param Code="Geopoint_Zacrep" Name="Описание закрепления точки" RegEx="" ErrorText="Введите текст">Закрепление отсутствует</Param>
+        </Item>
+      </Items>
+    </List>
+    <!-- Границы и Зоны -->
+    <List Name="Geopoint_Opred_Zone">
+      <Fields KeyCode="Geopoint_Opred">
+        <ParamHidden Code="Code" />
+        <Param Code="Geopoint_Opred" Name="Метод" RegEx=".{1,50}" ErrorText="Не более 50 символов" />
+      </Fields>
+      <Items>
+        <Item id="Geopoint_Opred_1" Fixed="true">
+          <ParamHidden Code="Code">692001000000</ParamHidden>
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Геодезический метод</Param>
+        </Item>
+        <Item id="Geopoint_Opred_2" Fixed="true">
+          <ParamHidden Code="Code">692002000000</ParamHidden>
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Фотограмметрический метод</Param>
+        </Item>
+        <Item id="Geopoint_Opred_3" Fixed="true">
+          <ParamHidden Code="Code">692003000000</ParamHidden>
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Картометрический метод</Param>
+        </Item>
+        <Item id="Geopoint_Opred_4" Fixed="true">
+          <ParamHidden Code="Code">692004000000</ParamHidden>
+          <Param Code="Geopoint_Opred" Name="Метод" RegEx="" ErrorText="Введите текст">Иное описание</Param>
+        </Item>
+      </Items>
+    </List>
+    <!-- Проект Межевания -->
+    <List Name="RightType">
+      <Fields KeyCode="RightType">
+        <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст" />
+      </Fields>
+      <Items>
+        <Item id="001001001000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Собственность</Param>
+        </Item>
+        <Item id="001001001001" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Государственная собственность</Param>
+        </Item>
+        <Item id="001001001002" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Муниципальная собственность</Param>
+        </Item>
+        <Item id="001001001003" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Собственность субъекта РФ</Param>
+        </Item>
+        <Item id="001001001004" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Собственность РФ</Param>
+        </Item>
+        <Item id="001001002000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Общая долевая собственность</Param>
+        </Item>
+        <Item id="001001003000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Общая совместная собственность</Param>
+        </Item>
+        <Item id="001001004000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Хозяйственное ведение</Param>
+        </Item>
+        <Item id="001001005000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Оперативное управление</Param>
+        </Item>
+        <Item id="001001006000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Пожизненное наследуемое владение</Param>
+        </Item>
+        <Item id="001001007000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Постоянное (бессрочное) пользование</Param>
+        </Item>
+        <Item id="001001008000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут (право)</Param>
+        </Item>
+        <Item id="001001009000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Иное вещное право</Param>
+        </Item>
+        <Item id="001002000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Долевая собственность</Param>
+        </Item>
+        <Item id="001002001000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Арест</Param>
+        </Item>
+        <Item id="001002002000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Запрещение</Param>
+        </Item>
+        <Item id="001002003000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Аренда (в том числе субаренда)</Param>
+        </Item>
+        <Item id="001002004000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Ипотека</Param>
+        </Item>
+        <Item id="001002005000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Доверительное управление</Param>
+        </Item>
+        <Item id="001002006000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут (ограничение)</Param>
+        </Item>
+        <Item id="001002006001" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут. Право прохода и проезда через земельный участок</Param>
+        </Item>
+        <Item id="001002006002" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут. Право проведения работ по прокладке ремонту и обслуживанию линий коммуникаций</Param>
+        </Item>
+        <Item id="001002006003" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут. Право проведения ремонтно-строительных работ</Param>
+        </Item>
+        <Item id="001002006004" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут. Право производства изыскательских и исследовательских работ на земельном участке</Param>
+        </Item>
+        <Item id="001002007000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Безвозмездное пользование участком лесного фонда</Param>
+        </Item>
+        <Item id="001002008000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Безвозмездное (срочное) пользование земельным участком</Param>
+        </Item>
+        <Item id="001002009000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Концессия участка лесного фонда</Param>
+        </Item>
+        <Item id="001002010000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Ограничение прав на землю, предусмотренное статьей 56 Земельного кодекса Российской Федерации</Param>
+        </Item>
+        <Item id="001002010001" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Охранная зона</Param>
+        </Item>
+        <Item id="001002010002" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Санитарно-защитная зона</Param>
+        </Item>
+        <Item id="001002010003" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Вторая зона округа санитарной охраны</Param>
+        </Item>
+        <Item id="001002010004" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Санитарно-защитная полоса</Param>
+        </Item>
+        <Item id="001002010005" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Особо охраняемая природная территория</Param>
+        </Item>
+        <Item id="001002010006" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Прибрежная защитная полоса</Param>
+        </Item>
+        <Item id="001002010007" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Зона регулирования застройки</Param>
+        </Item>
+        <Item id="001002010008" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Зона ограничений застройки</Param>
+        </Item>
+        <Item id="001002010009" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Зона охраняемого природного ландшафта</Param>
+        </Item>
+        <Item id="001002010010" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Территория памятника истории и культуры</Param>
+        </Item>
+        <Item id="001002010011" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Прочие</Param>
+        </Item>
+        <Item id="001002010012" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Вторая зона округа горно-санитарной охраны</Param>
+        </Item>
+        <Item id="001002010013" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Водоохранная зона</Param>
+        </Item>
+        <Item id="001002010014" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Второй пояс зоны санитарной охраны</Param>
+        </Item>
+        <Item id="001002010015" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Особый режим использования земли. Придорожная полоса</Param>
+        </Item>
+        <Item id="001002011000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Обязательства по сохранению объекта культурного наследия (памятника истории и культуры) народов РФ или выявленного объекта культурного наследия, подлежащего государственной охране до принятия решения о включении его в ЕГР объектов культурного наследия</Param>
+        </Item>
+        <Item id="001002012000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Иное ограничение (обременение)</Param>
+        </Item>
+        <Item id="001003000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Совместная собственность</Param>
+        </Item>
+        <Item id="001003001000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сделки об отчуждении объектов недвижимости</Param>
+        </Item>
+        <Item id="001003001001" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Купля-продажа</Param>
+        </Item>
+        <Item id="001003001002" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Мена</Param>
+        </Item>
+        <Item id="001003001003" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Дарение (в том числе пожертвование)</Param>
+        </Item>
+        <Item id="001003001004" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Рента</Param>
+        </Item>
+        <Item id="001003002000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сделки, на основании которых возникают ограничения (обременения) прав</Param>
+        </Item>
+        <!--Item id="001003002001" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Аренда (в том числе субаренда)</Param>
+        </Item-->
+        <!--Item id="001003002002" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Ипотека</Param>
+        </Item-->
+        <!--Item id="001003002003" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Безвозмездное пользование участком лесного фонда</Param>
+        </Item-->
+        <!--Item id="001003002004" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Концессия участка лесного фонда</Param>
+        </Item-->
+        <!--Item id="001003002005" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Безвозмездное (срочное) пользование земельным участком</Param>
+        </Item-->
+        <Item id="001003003000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Отказ одаряемого принять дар</Param>
+        </Item>
+        <Item id="001003004000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Соглашение об изменении зарегистрированного договора</Param>
+        </Item>
+        <Item id="001003005000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Уступка прав требования, перевод долга по зарегистрированному договору</Param>
+        </Item>
+        <Item id="001003006000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Иные сделки, подлежащие государственной регистрации в соответствии с законодательством Российской Федерации</Param>
+        </Item>
+        <!--Item id="001004000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Хозяйственное ведение</Param>
+        </Item-->
+        <!--Item id="001005000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Оперативное управление</Param>
+        </Item-->
+        <Item id="001020000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Неопределено</Param>
+        </Item>
+        <Item id="001030000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Значение отсутствует</Param>
+        </Item>
+        <!--Item id="001006000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Пожизненное наследуемое владение</Param>
+        </Item-->
+        <!--Item id="001007000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Постоянное (бессрочное) пользование</Param>
+        </Item-->
+        <!--Item id="001008000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Сервитут (право)</Param>
+        </Item-->
+        <Item id="001099000000" Fixed="true">
+          <Param Code="RightType" Name="Вид" RegEx="" ErrorText="Введите текст">Иные права</Param>
+        </Item>
+      </Items>
+    </List>
+    <!-- Карта-план территории -->
+    <List Name="DocumentsAdditionalMap">
+      <Fields KeyCode="Scale">
+        <Param Code="Scale" Name="Масштаб" RegEx="(.{1,255})" ErrorText="Не более 255 символов" />
+        <ParamDate Code="DateMap" Name="Дата создания" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" />
+        <ParamDate Code="DateUpdate" Name="Дата последнего обновления" Format="yyyy-MM-dd" RegEx=".*" ErrorText="Выберите дату" />
+      </Fields>
+      <Items />
+    </List>
+  </Lists>
+  <Buffers />
+  <Forms SetCodeReg="" SetDate="" SetTime="" SetID="" SetCodePack="" SetUID="">
+  <!-- Акт обследования -->
+    <Form Code="Act" Name="Акт обследования" ID="0" ParentID="" MinOcc="1" MaxOcc="1" CodeRegMask="sth" Selected="true" ExternalCheck="'{?Settings(VersionAct)?}'='01' or '{?Settings(VersionAct)?}'='02'">
+      <Page Code="Customer" Name="Заказчик и исполнитель" CodeRegMask="(sth)">
+        <Alt Code="Print" Name="Печать акта обследования (ВЕРСИЯ 01)" Selected="true" ExternalCheck="'{?Settings(VersionAct)?}'='01'">
+          <Section Selected="false" Code="true" Name="Создать версию для печати"/>
+          <Section Code="part" Selected="false" Name="Создать версию для печати без графической части и приложений"/>
+          <Section Selected="true" Code="false" Name="Не создавать"/>
+        </Alt>
+        <Alt Code="Print" Name="Печать акта обследования (ВЕРСИЯ 02)" Selected="true" ExternalCheck="'{?Settings(VersionAct)?}'='02'">
+          <Section Selected="false" Code="true" Name="Создать версию для печати"/>
+          <Section Code="part" Selected="false" Name="Создать версию для печати без графической части и приложений"/>
+          <Section Selected="true" Code="false" Name="Не создавать"/>
+        </Alt>
+        <Simple Code="CustomerDate" Name="Дата подготовки акта обcледования" Selected="true">
+          <Section>
+            <ParamDate Code="Date" Name="Дата" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" >{?External(Date)?}</ParamDate>
+          </Section>
+        </Simple>
+        <Simple Code="ContractorDate" Name="Дата заключения договора подряда (в версию для печати)" Selected="true"
+                Visible="//Form[@Code='Act' and @Selected='true']/Page/Alt[@Code='Print' and @Selected='true']/*[@Selected='true' and not(@Code='false')]"
+                Enabled="//Form[@Code='Act' and @Selected='true']/Page/Alt[@Code='Print' and @Selected='true']/*[@Selected='true' and not(@Code='false')]">
+          <Section>
+            <Param Code="Number" Name="Номер" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" MinWidth="300" />
+            <ParamDate Code="Date" Name="Дата" Format="yyyy-MM-dd" RegEx=".+|" ErrorText="Выберите дату" />
+          </Section>
+        </Simple>
+        <Alt Code="RegisterRight" Name="Права на объект зарегистрированы в ЕГРН" Selected="true">
+          <Section Selected="false" Code="true" Name="Да" />
+          <Section Selected="true" Code="false" Name="Нет" />
+        </Alt>
+        <Simple Code="ContractorNumber"
+          Name="Номер и дата заключения договора на выполнение кадастровых работ (в версию для печати)"
+          Selected="true"
+          Visible="//Form[@Code='Act' and @Selected='true']/Page/Alt[@Code='Print' and @Selected='true']/*[@Selected='true' and not(@Code='false')]"
+          Enabled="//Form[@Code='Act' and @Selected='true']/Page/Alt[@Code='Print' and @Selected='true']/*[@Selected='true' and not(@Code='false')]"
+          ExternalCheck="'{?Settings(VersionAct)?}'='01'">
+          <Section>
+            <Param Code="Number" Name="Номер" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" MinWidth="300" />
+            <ParamDate Code="Date" Name="Дата" Format="yyyy-MM-dd" RegEx=".+|" ErrorText="Выберите дату" />
+          </Section>
+        </Simple>
+        <Simple Code="ContractorNumber"
+          Name="Номер и дата заключения договора на выполнение кадастровых работ" Selected="true"
+          ExternalCheck="'{?Settings(VersionAct)?}'='02'">
+          <Section>
+            <Param Code="Number" Name="Номер" RegEx="(.{1,255})" ErrorText="Не более 255 символов" MinWidth="300"/>
+            <ParamDate Code="Date" Name="Дата" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату"/>
+          </Section>
+        </Simple>
+        <Alt Code="Contractor" Name="Сведения о кадастровом инженере" Selected="true">
+          <Section Code="M" Name="Кадастровый инженер: {?External(FIO1)?} {?External(FIO2)?} {?External(FIO3)?}" Selected="true">
+            <ParamText Code="XXX" ExternalCheck="{?External(JFSender)?}=0" />
+            <ParamText Code="XXX" ExternalCheck="{?External(JFSender)?}=1">Организация: {?External(Organization)?}</ParamText>
+          </Section>
+          <Section Code="J" Name="Представитель организации" Selected="false">
+            <ParamSelectList Code="J" Type="1" Name="Представитель организации" ErrorText="Выберите значение" RegEx=".+" ListName="Organization" />
+            <Param Code="AddressOrganization" Name="Адрес местонахождения юридического лица" ErrorText="Не более 4000 символов" RegEx="(.{1,4000})" />
+          </Section>
+          <Section Code="F" Name="Физическое лицо" Selected="false">
+            <ParamSelectList Code="F" Name="Физическое лицо" ErrorText="Выберите значение" RegEx=".+" ListName="Person" />
+          </Section>
+        </Alt>
+        <Simple Code="ContractorRegNumber" Name="Номер регистрации в государственном реестре лиц, осуществляющих кадастровую деятельность (в версию для печати)" Selected="true"  ExternalCheck="'{?Settings(VersionAct)?}'='01'">
+          <Section>
+            <Param Code="Number" Name="Номер" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" MinWidth="300" />
+          </Section>
+        </Simple>
+        <Simple Code="ContractorRegNumber"
+          Name="Номер регистрации в государственном реестре лиц, осуществляющих кадастровую деятельность "
+          Selected="true"  ExternalCheck="'{?Settings(VersionAct)?}'='02'">
+          <Section>
+            <Param Code="Number" Name="Номер" RegEx="(.{1,50})" ErrorText="Не более 255 символов" MinWidth="300"/>
+          </Section>
+        </Simple>
+        <Simple Code="NameSRO" Name="Наименование саморегулируемой организации в сфере кадастровых отношений, если кадастровый инженер является членом такой организации" Selected="true">
+          <Section>
+            <Param Code="Name" Name="Наименование" RegEx="(.{1,255}|)" SetEditor="NameSRO" ErrorText="Не более 255 символов" MinWidth="300">{?Editor(NameSRO)?}</Param>
+          </Section>
+        </Simple>
+        <Simple Code="XXX" Name="Подсказка" Selected="true">
+          <Section>
+            <ParamText Code="XXX">При активации и заполнении раздела "Сведения о СРО, если кадастровый инженер является членом такой организации", информация, внесенная в поля данного раздела, а также в поле "Наименование СРО" будет включена в раздел "Заключение кадастрового инженера" печатной версии и соответствующий элемент xml-документа в виде текстовой формулировки : " Акт обследования подготовил кадастровый инженер _______(указывается ФИО), являющийся членом СРО КИ _______(указывается наименование) (уникальный реестровый номер кадастрового инженера в реестре членов СРО КИ N _______ (указывается номер кадастрового инженера в СРО КИ)). Сведения о СРО КИ _______ (указывается наименование) содержатся в государственном реестре СРО КИ (уникальный номер реестровой записи от __________ N ___________)".</ParamText>
+          </Section>
+        </Simple>
+        <Simple Code="ContractorSRO" Name="Сведения о СРО, если кадастровый инженер является членом такой организации" Optional="true" Selected="true">
+          <Section>
+            <Param Code="NumberID" Name="Уникальный реестровый номер КИ в реестре СРО" RegEx="(.{1,255}|)" SetEditor="SRONumberID" ErrorText="Не более 255 символов" MinWidth="300">{?Editor(SRONumberID)?}</Param>
+            <Param Code="ReestrNumber" Name="Номер реестровой записи о СРО в реестре СРО" RegEx="(.{1,255}|)" SetEditor="SROReestrNumber" ErrorText="Не более 255 символов" MinWidth="300">{?Editor(SROReestrNumber)?}</Param>
+            <ParamDate Code="Date" Name="Дата внесения реестровой записи о СРО в реестр СРО" Format="yyyy-MM-dd" SetEditor="SRODate" RegEx=".+|" ErrorText="Выберите дату">{?Editor(SRODate)?}</ParamDate>
+          </Section>
+        </Simple>
+        <Alt Code="Customer" Name="Сведения о заказчике кадастровых работ" Selected="true"
+          ExternalCheck="{?Settings(VersionAct)?}='01' or {?Settings(VersionAct)?}='02'">
+          <Section Code="Person" Name="Физическое лицо" Selected="true">
+            <Param Code="FamilyName" Name="Фамилия" RegEx="[а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*" ErrorText="Русские буквы, дефис, апостроф" >{?External(FamilyName)?}</Param>
+            <Param Code="FirstName" Name="Имя" RegEx="[а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*" ErrorText="Русские буквы, дефис, апостроф" >{?External(FirstName)?}</Param>
+            <Param Code="Patronymic" Name="Отчество" RegEx="([а-яА-ЯёЁ\-0-9][а-яА-ЯёЁ\-\s'',.]*|)" ErrorText="Русские буквы, дефис, апостроф" >{?External(Patronymic)?}</Param>
+            <Param Code="SNILS" Name="СНИЛС" RegEx="([0-9]{3}\-[0-9]{3}\-[0-9]{3} [0-9]{2}|)" ErrorText="Формат nnn-nnn-nnn nn, где n - число" ReadOnly="false" SetEditor="SNILS" >{?External(SNILS)?}</Param>
+          </Section>
+          <Section Code="Organization" Name="Организация" Selected="false">
+            <Param Code="Name" Name="Полное наименование" ErrorText="Непустой текст, не более 255 символов" RegEx="(.{1,255})" >{?External(Name)?}</Param>
+          </Section>
+          <Section Code="Governance" Name="Орган государственной власти (местного самоуправления)" Selected="false">
+            <Param Code="Name" Name="Полное наименование" ErrorText="Непустой текст, не более 255 символов" RegEx="(.{1,255})" >{?External(Name)?}</Param>
+          </Section>
+          <Section Code="ForeignOrganization" Name="Иностранная организация" Selected="false">
+            <Param Code="Name" Name="Полное наименование" ErrorText="Непустой текст, не более 255 символов" RegEx="(.{1,255})" >{?External(Name)?}</Param>
+            <Param Code="Country" Name="Страна регистрации" ErrorText="Непустой текст, не более 45 символов" RegEx="(.{1,45})" >{?External(Country)?}</Param>
+          </Section>
+        </Alt>
+        <Simple Code="Conclusion" Name="Заключение кадастрового инженера" Selected="true">
+          <Section>
+            <ParamMemo Code="Conclusion" Name="Текст" ErrorText="Введите значение" RegEx=".*" Height="150" />
+          </Section>
+        </Simple>
+      </Page>
+      <Page Code="CadastralNumbers" Name="Объект" CodeRegMask="(sth)">
+        <Alt Code="Archive" Name="Снятие с учета" Selected="true">
+          <Section Selected="true" Code="ObjectArchive" Name="Объекта капитального строительства">
+            <Param Code="CadastralNumber" Name="Кадастровый номер" RegEx="\d{2}:\d{2}:\d{6,7}:\d{1,}" ErrorText="Шаблон 'nn:nn:N:M', где n - цифра, N - 6 или 7 цифр, M - цифры" >{?External(CadastralNumber)?}</Param>
+            <ParamSelect Code="Obj" Name="Тип" ErrorText="Выберите значение" Dictionary="dRealty17" DictionaryMask="(?!FILE)(?!NAME)(00200100[2345]000)" RegEx="(?!- ВЫБОР -).+">
+              <Param Code="{?External(Obj)?}" Name="- ВЫБОР -" Selected="true" />
+            </ParamSelect>
+            <ParamSelectList Code="Address" ListName="Address" Name="Адрес по КЛАДР" RegEx=".+"
+              ErrorText="Создайте и выберите адрес"
+              ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}') and '{?Settings(VersionStatement_NEW)?}'='ЕГРН 01'"/>
+          </Section>
+        </Alt>
+        <Simple Code="Utilization" Name="Параметры, влияющие на расчёт налоговой пошлины:" Selected="true" CodeRegMask='(sth)'
+          ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}') and '{?Settings(VersionRequest_NEW)?}'='ЕГРН 01'">
+          <Section>
+            <ParamText Code="Text1">
+              Если объект располагается на ЗУ, предназначенном для ведения ЛПХ, дачного хозяйства, огородничества, садоводства, индивидуального гаражного/жилищного строительства укажите одно из значений:
+              - Для ведения личного подсобного хозяйства
+              - Ведение дачного хозяйства
+              - Ведение огородничества
+              - Ведение садоводства
+              - Объекты гаражного назначения
+            </ParamText>
+            <ParamSelect Code="LandUse" Name="Разрешенное использование земельного участка" Dictionary="DUsageType" DictionaryMask="((?!FILE)(?!NAME).*)"  ErrorText="Выберите значение" MinWidth="100" SortMode="Value" >
+              <Param Code="000000000000" Name="" Selected="true"  />
+            </ParamSelect>
+
+          </Section>
+        </Simple>
+
+
+        <Multi Code="Flats" Name="Помещения" Selected="true" Type="Table" Enabled="../Alt[@Code='Archive' and @Selected='true']/*[@Selected='true' and (@Code='FlatsArchive')]" Visible="../Alt[@Code='Archive' and @Selected='true']/*[@Selected='true' and (@Code='FlatsArchive')]">
+          <Section SetNumber="">
+            <Param Code="CadastralNumber" Name="Кадастровый номер" RegEx="\d{2}:\d{2}:\d{6,7}:\d{1,}" ErrorText="Шаблон 'nn:nn:N:M', где n - цифра, N - 6 или 7 цифр, M - цифры" MinWidth="200" />
+          </Section>
+        </Multi>
+        <Alt Code="RightRegisteredUnregistered"
+          Name="Сведения о наличии (отсутствии) в Едином государственном реестре недвижимости сведений о зарегистрированных правах на объект недвижимости"
+          Selected="true" ExternalCheck="'{?Settings(VersionAct)?}'='02'">
+          <Section Selected="true" Code="false" Name="Нет"/>
+          <Section Selected="false" Code="true" Name="Да"/>
+        </Alt>
+      </Page>
+      <Page Code="Applied_Documents" Name="Приложенные документы" CodeRegMask="(sth)" >
+        <Multi Code="Applied_Document" Name="Документ" Selected="true" CodeRegMask="(sth)" Type="Table">
+          <Section SetNumber="">
+            <ParamSelect Code="Kind" SortMode="Value" Name="Тип" Dictionary="dAllDocuments" DictionaryMask="((?!FILE)(?!NAME)558204000000|558205000000|558213030000|558214000000|558214010000|558216000000|558219000000|558401000000|558401070300|558502020000)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение" CodeRegMask="(sth)" MinWidth="200">
+              <Param Code="{?External(Kind)?}" Name="- ВЫБОР -" Selected="true" />
+            </ParamSelect>
+            <ParamSelectList Code="Name" Name="Наименование" RegEx="(.{1,255}|)" ListName="NameDocument" ErrorText="Создайте и выберите значение" MinWidth="100" />
+            <Param Code="Series" Name="Серия" RegEx="(.{1,45}|)" ErrorText="Не более 45 символов" MinWidth="60" CodeRegMask="(sth)" >{?External(Series)?}</Param>
+            <Param Code="Number" Name="Номер" RegEx="(.{1,45})" ErrorText="Не более 45 символов" MinWidth="60" >{?External(Number)?}</Param>
+            <ParamDate Code="Date" Name="Дата выдачи" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" MinWidth="100" />
+            <ParamSelectList Code="IssueOrgan" Name="Кем выдан" ListName="IssueOrgan" RegEx="(.{1,255}|)" ErrorText="Создайте и выберите значение" MinWidth="100" />
+            <ParamHidden Code="Pages">1</ParamHidden>
+            <ParamFile Code="Act" Name="Приложить образ документа" SetType="" SetName="" SetID="" RegEx="(.+\.(?!doc)(?!sig)\w+|)" ErrorText="Путь к графическому файлу с расширением gif, jpg, tif, pdf" MinWidth="200" ExternalCheck="'{?Settings(VersionAct)?}'='01'"/>
+            <ParamFile Code="Act" Name="Приложенный файл в формате PDF, XML, ZIP" SetType="" SetName="" SetID="" RegEx="(.*\.([p|P][d|D][f|F]|[x|X][m|M][l|L]|[z|Z][i|I][p|P])|)" ErrorText="Путь к файлу с расширением PDF, XML, ZIP" MinWidth="200" ExternalCheck="'{?Settings(VersionAct)?}'='02'"/>
+          </Section>
+        </Multi>
+      </Page>
+    </Form>
+  
+  <!-- Параметры -->
+    <Form Code="Info" Name="Параметры" ID="0" ParentID="" MinOcc="1" MaxOcc="1" Selected="true">
+      <Page Code="Info" Name="Параметры">
+        <Simple Code="Sender" Name="Организация" Selected="true" ExternalCheck="{?External(JFSender)?}=1">
+          <Section>
+            <ParamHidden Code="JF">J</ParamHidden>
+            <Param Code="CodeSender" SetEditor="CodeSender" Name="Код" RegEx="\w{12}|" ErrorText="12 цифр или букв" ReadOnly="true"/>
+            <Param Code="Organization" SetEditor="Organization" Name="Наименование организации" RegEx=".+" ErrorText="" ReadOnly="true">{?External(Organization)?}</Param>
+            <Param Code="INNJ" Name="ИНН" SetEditor="INNJ" RegEx="\d{10}" ErrorText="10 цифр" ReadOnly="true"/>
+            <Param Code="KPP" Name="КПП" SetEditor="KPP" RegEx="(\d{9}|)" ErrorText="9 цифр" ReadOnly="true"/>
+            <Param Code="OGRN" Name="ОГРН" SetEditor="OGRN" RegEx="[125]{1}\d{12}" ErrorText="13 цифр, первая - 1,2,5"/>
+            <ParamDate Code="RegDate" Name="Дата регистрации" SetEditor="RegDate" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" ReadOnly="true"/>
+            <Param Code="Phone" Name="Телефон" SetEditor="Phone" ErrorText="Шаблон: +7N, где N - цифры " RegEx="(\+7[0-9]{1,14}|)" >{?External(Phone)?}</Param>
+            <Param Code="Email" Name="E-mail" SetEditor="Email" RegEx="([0-9a-zA-Z_.\-]{2,50}[@]{1}[0-9a-zA-Z_.\-]{2,50}[.]{1}[a-zA-Z]{2,5}|)" ErrorText="Шаблон 'S@S.L', где S - от 2-х до 50 символов, L - от 2-х до 5 букв" ReadOnly="false">{?External(OtherEmail)?}</Param>
+            <ParamSelect Code="Region" Name="Регион" SetEditor="RegionInfo" Dictionary="dRegionsRF" DictionaryMask="((?!FILE)(?!NAME).*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение" ReadOnly="true">
+              <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+            </ParamSelect>
+            <Param Code="Address" Name="Адрес" SetEditor="Address" RegEx="(.{1,2500})" ErrorText="Не более 2500 символов" ReadOnly="true">{?External(Address)?}</Param>
+            <ParamHidden Code="GUID_Contractor">Id{?GUID()?}</ParamHidden>
+            <ParamSelect Code="Governance_Code" Name="Тип субъекта правоотношений" SetEditor="GovernanceCode" Dictionary="dGovernance_Code" DictionaryMask="((?!FILE)(?!NAME)(00700100100[1-3]))" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение"
+                         ExternalCheck="{?ListMaskCount('{?External(OID)?}','1\.2\.643\.5\.1\.24\.2\.(10|11|12|13|14|15|16|17|18|19|20|27|32|39|4|42|43|44|45|46|47|49|5|50|51|52|6|7|8|9)')?} &gt; 0" CodeRegMask="(exr|exs|ext|zone|chzone|kais)">
+              <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+            </ParamSelect>
+          </Section>
+        </Simple>
+        <Simple Code="Agent" Name="Представитель организации (владелец сертификата)" Selected="true" ExternalCheck="{?External(JFSender)?}=1">
+          <Section>
+            <ParamHidden Code="agent_kind" ExternalCheck="{?ListMaskCount('{?External(OID)?}','1\.2\.643\.5\.1\.24\.2\.(10|11|12|13|14|15|16|17|18|20|32|39|4|42|43|44|45|46|47|49|5|50|51|52|6|7|8|9)')?} &gt; 0">356005000000</ParamHidden>
+            <ParamHidden Code="agent_kind" ExternalCheck="{?ListMaskCount('{?External(OID)?}','1\.2\.643\.5\.1\.24\.2\.(10|11|12|13|14|15|16|17|18|20|32|39|4|42|43|44|45|46|47|49|5|50|51|52|6|7|8|9)')?} = 0">356004000000</ParamHidden>
+            <Param Code="FIO1" Name="Фамилия" RegEx=".{1,45}" SetEditor="FIO1" ErrorText="Не более 45 символов" ReadOnly="true">{?External(FIO1)?}</Param>
+            <Param Code="FIO2" Name="Имя" RegEx=".{1,255}" SetEditor="FIO2" ErrorText="Не более 255 символов" ReadOnly="true">{?External(FIO2)?}</Param>
+            <Param Code="FIO3" Name="Отчество" SetEditor="FIO3" RegEx="(.{1,45}|)" ErrorText="Не более 45 символов" ReadOnly="true">{?External(FIO3)?}</Param>
+            <Param Code="SNILS" Name="СНИЛС" RegEx="([0-9]{3}-[0-9]{3}-[0-9]{3} [0-9]{2}|)" ErrorText="Формат nnn-nnn-nnn nn, где n - число" ReadOnly="true" SetEditor="SNILS"/>
+            <Param Code="INNF" Name="ИНН" SetEditor="INNF" RegEx="(\d{12}|)" ErrorText="12 цифр" ReadOnly="true"/>
+            <Param Code="CertN" Name="Номер аттестата кадастрового инженера" RegEx="(.{1,50}|)" ErrorText="Не более 50 символов" ReadOnly="true" CodeRegMask="(?!exr).+">{?External(NumberSender)?}</Param>
+            <ParamDate Code="DateBirth" Name="Дата рождения" Format="yyyy-MM-dd" RegEx=".+" SetEditor="DateBirth" ErrorText="Выберите дату" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}') and '{?Settings(VersionStatement_NEW)?}'='ЕГРН 01'"/>
+            <Param Code="Place_Birth" Name="Место рождения" RegEx="(.{1,255})" ErrorText="Не более 255 символов" SetEditor="Place_Birth" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}') and '{?Settings(VersionStatement_NEW)?}'='ЕГРН 01'"/>
+            <ParamSelectList Code="Address" ListName="Address" Name="Адрес по КЛАДР" RegEx=".+"
+              ErrorText="Создайте и выберите адрес" SetEditor="DecAddress"
+              ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}') and '{?Settings(VersionStatement_NEW)?}'='ЕГРН 01'"
+              ></ParamSelectList>
+            <Param Code="Appointment" Name="Должность" SetEditor="Appointment" RegEx="(.{1,255}|)" ErrorText="Не более 255 символов" ReadOnly="true"/>
+            <ParamSelect Code="Type_Document" Name="Документ, удостоверяющий личность" SetEditor="DocType" Dictionary="dCertificates" DictionaryMask="((?!FILE)(?!NAME)(?!008001000000)(?!008001021000)008001.*)" RegEx="(?!- ВЫБОР -).+" ErrorText="Выберите значение" ReadOnly="true">
+              <Param Code="XXX" Name="- ВЫБОР -" Selected="true" />
+            </ParamSelect>
+            <Param Code="Series" Name="Серия документа" SetEditor="DocSeries" RegEx="(.{1,45})" ErrorText="Не более 45 символов" ReadOnly="true"/>
+            <Param Code="Number" Name="Номер документа" SetEditor="DocNumber" RegEx="(.{1,45})" ErrorText="Не более 45 символов" ReadOnly="true"/>
+            <Param Code="IssueOrgan" Name="Кем выдан" SetEditor="DocIssueOrgan" RegEx="(.{1,255})" ErrorText="Не более 255 символов" ReadOnly="true"/>
+            <ParamDate Code="Date" Name="Дата выдачи" SetEditor="DocDate" Format="yyyy-MM-dd" RegEx=".+" ErrorText="Выберите дату" ReadOnly="true"/>
+          </Section>
+        </Simple>
+        <Alt Code="AgentLetter" Name="Основание деятельности представителя" SetEditor="AgentLetter" CodeSelected="{?Editor(AgentLetter)?}" Selected="true" ExternalCheck="{?External(JFSender)?}=1" CodeRegMask=".+">
+          <Section Code="Letter" Selected="true" Name="Доверенность">
+            <ParamText Code="XXX">Описание доверенности будет включено в заявление, если введен номер и/или приложен образ.</ParamText>
+            <Param Code="LetterNumber" Name="Номер доверенности" SetEditor="LetterNumber" RegEx="(.{1,45}|)" ErrorText="Не более 45 символов">{?Editor(LetterNumber)?}</Param>
+            <ParamDate Code="LetterDate1" Name="Дата начала действия" SetEditor="LetterDate1" Format="yyyy-MM-dd" ErrorText="Выберите дату">{?Editor(LetterDate1)?}</ParamDate>
+            <ParamDate Code="LetterDate2" Name="Дата окончания действия" SetEditor="LetterDate2" Format="yyyy-MM-dd" ErrorText="Выберите дату">{?Editor(LetterDate2)?}</ParamDate>
+            <ParamFile Code="Request" Name="Приложить образ доверенности" SetEditor="LetterFile" SetType="" SetName="" RegEx="(.+\.(?!sig)\w+|)" ErrorText="Путь к графическому файлу с расширением gif, jpg, tif, pdf">{?Editor(LetterFile)?}</ParamFile>
+          </Section>
+          <Section Code="LetterFree" Selected="false" Name="Иное">
+            <Param Code="LetterNumber" Name="Основание" SetEditor="LetterNumber" RegEx="(.{1,45}|)" ErrorText="Не более 45 символов">{?Editor(LetterNumber)?}</Param>
+          </Section>
+        </Alt>
+      </Page>
+      <Page Code="Versions" Name="Версии электронных документов">
+        <Simple Code="Versions" Name="Версии" Selected="true">
+          <Section>
+            <ParamHidden Code="OID" ExternalCheck="{?ListMaskCount('{?External(OID)?}','1\.2\.643\.5\.1\.24\.2\.1\.3\.1')?} &gt; 0">KI</ParamHidden>
+            <ParamHidden Code="OID" ExternalCheck="{?ListMaskCount('{?External(OID)?}','1\.2\.643\.5\.1\.24\.2\.48')?} &gt; 0">OTI</ParamHidden>
+            <ParamHidden Code="OID" ExternalCheck="{?ListMaskCount('{?External(OID)?}','1\.2\.643\.5\.1\.24\.2\.(10|11|12|13|14|15|16|17|18|19|20|27|32|39|4|42|43|44|45|46|47|49|5|50|51|52|6|7|8|9)')?} &gt; 0">GO</ParamHidden>
+            <Param Code="VersionRequest" Name="Заявление ГКН" ErrorText="" ReadOnly="true" CodeRegMask="(nwh|nwhm|chh|nwz|chz|sth|cor)" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}')">{?Settings(VersionStatement_NEW)?}</Param>
+            <Param Code="VersionRequest" Name="Заявление ГКН" ErrorText="" ReadOnly="true" CodeRegMask="(nwh|nwhm|chh|nwz|chz|sth|cor)" ExternalCheck="not(contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}'))">{?Settings(VersionRequest)?}</Param>
+            <Param Code="VersionStatementGRP" Name="Заявление ЕГРН" ErrorText="" ReadOnly="true" CodeRegMask="(nwr)" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}')">{?Settings(VersionStatement_NEW)?}</Param>
+            <Param Code="VersionStatementGRP" Name="Заявление ЕГРН" ErrorText="" ReadOnly="true" CodeRegMask="(nwr)" ExternalCheck="not(contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}'))">{?Settings(VersionStatementGRP)?}</Param>
+            <Param Code="VersionRequest" Name="Заявление ГКН" ErrorText="" ReadOnly="true" CodeRegMask="(add)" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}')">{?Settings(VersionStatement_NEW)?}</Param>
+            <Param Code="VersionRequest" Name="Заявление ГКН" ErrorText="" ReadOnly="true" CodeRegMask="(add)" ExternalCheck="not(contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}'))">{?Settings(VersionRequestADD)?}</Param>
+            <Param Code="VersionRequest" Name="Заявление ГКН" ErrorText="" ReadOnly="true" CodeRegMask="(exs|ext)" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}')">{?Settings(VersionRequest_NEW)?}</Param>
+            <Param Code="VersionRequest" Name="Заявление ГКН" ErrorText="" ReadOnly="true" CodeRegMask="(exs|ext)" ExternalCheck="not(contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}'))">{?Settings(VersionRequestGKN_KS)?}</Param>
+            <Param Code="VersionReestr" Name="Заявление ЕГРН" ErrorText="" ReadOnly="true" CodeRegMask="(exr)" ExternalCheck="contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}')">{?Settings(VersionRequest_NEW)?}</Param>
+            <Param Code="VersionReestr" Name="Заявление ЕГРН" ErrorText="" ReadOnly="true" CodeRegMask="(exr)" ExternalCheck="not(contains('{?Settings(NewRegionsList)?}','{?External(SetupRegion)?}'))">{?Settings(VersionRequestGRP)?}</Param>
+
+            <Param Code="VersionReestr" Name="Обращение ЕГРН" ErrorText="" ReadOnly="true" CodeRegMask="(nwr)">{?Settings(VersionReestr)?}</Param>
+            <Param Code="VersionRequestCOST" Name="Результаты кадастровой оценки" ErrorText="" ReadOnly="true" CodeRegMask="(cost)">{?Settings(VersionRequestCOST)?}</Param>
+            <Param Code="VersionRequestCCD" Name="Удельные показатели кадастровой стоимости" ErrorText="" ReadOnly="true" CodeRegMask="(cost)">{?Settings(VersionRequestCCD)?}</Param>
+            <Param Code="VersionMP" Name="Межевой план" ErrorText="" ReadOnly="true" CodeRegMask="(nwz|chz)">{?Settings(VersionMP)?}</Param>
+            <Param Code="VersionTP" Name="Технический план" ErrorText="" ReadOnly="true" CodeRegMask="(nwh|nwhm|chh)">{?Settings(VersionTP)?}</Param>
+            <Param Code="VersionAct" Name="Акт обследования" ErrorText="" ReadOnly="true" CodeRegMask="(sth)">01</Param>
+            <Param Code="VersionZoneToGKN" Name="Заявление 'Зоны'" ErrorText="" ReadOnly="true" CodeRegMask="(zone|chzone)">{?Settings(VersionZoneToGKN)?}</Param>
+            <Param Code="VersionBoundToGKN" Name="Заявление 'Границы'" ErrorText="" ReadOnly="true" CodeRegMask="(zone|chzone)">{?Settings(VersionBoundToGKN)?}</Param>
+            <Param Code="VersionMapPlan" Name="Карта (план)" ErrorText="" ReadOnly="true" CodeRegMask="(zone|chzone)">{?Settings(VersionMapPlan)?}</Param>
+            <Param Code="VersionTerritoryToGKN" Name="Территория" ErrorText="" ReadOnly="true" CodeRegMask="(zone|chzone)">{?Settings(VersionTerritoryToGKN)?}</Param>
+            <Param Code="VersionKAISToGKN" Name="Заявление 'Характеристики'" ErrorText="" ReadOnly="true" CodeRegMask="(kais)">{?Settings(VersionKAISToGKN)?}</Param>
+            <Param Code="VersionSchemaParcels" Name="Схема ЗУ на КПТ" ErrorText="" ReadOnly="true" CodeRegMask="(schz)">{?Settings(VersionSchemaParcels)?}</Param>
+            <ParamHidden Code="ProgramS">TExpress</ParamHidden>
+            <ParamHidden Code="ProgramR">Portal</ParamHidden>
+            <ParamHidden Code="ImportTransforms">{?External(ImportTransforms)?}</ParamHidden>
+            <ParamHidden Code="MiniEditorExist">{?Settings(MiniEditorExist)?}</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="nwz">nwz</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="chz">chz</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="nwh">nwh</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="nwhm">nwhm</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="chh">chh</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="sth">sth</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="cor">cor</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="nwr">nwr</ParamHidden>
+
+
+            <ParamHidden Code="CodeReg" CodeRegMask="ext">ext</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="exs">exs</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="add">add</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="exr">exr</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="kais">kais</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="zone">zone</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="chzone">chzone</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="cost">cost</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="schz">schz</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="cht">cht</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="sign">sign</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="prjz">prjz</ParamHidden>
+            <ParamHidden Code="CodeReg" CodeRegMask="praf">praf</ParamHidden>
+          </Section>
+        </Simple>
+        <Simple Code="Transfer" Name="Передача данных" Selected="false">
+          <Section>
+            <Param Code="SetupRegion" Name="Регион" ErrorText="" ReadOnly="true">{?External(SetupRegion)?}</Param>
+            <Param Code="NameRecipient" Name="Подразделение Росреестра" ErrorText="" ReadOnly="true">{?External(NameRecipient)?}</Param>
+            <Param Code="Transfer" Name="Передача через..." ErrorText="" ReadOnly="true">Портал государственных услуг Росреестра</Param>
+            <Param Code="Program" Name="Программный модуль" ErrorText="" ReadOnly="true">ТехноКад-Экспресс</Param>
+          </Section>
+        </Simple>
+      </Page>
+    </Form>
+  </Forms>
+</MiniEditor>
